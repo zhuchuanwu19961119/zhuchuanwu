@@ -1,0 +1,169 @@
+{include file="public/header" /}
+<!--内容显示-->
+<!-- blog/Admin CSS -->
+<link rel="stylesheet" href="__STATIC__/blog/admin.css">
+<!-- 文章管理 类别显示页面-->
+<div class="row">
+    <div class="col-lg-12" style="margin-top: 25px;">
+        <div class="panel panel-default">
+            <!--文章标头-->
+            <div class="panel-heading ArtManHeader">
+                文章列表
+            </div>
+            <!--文章标头-->
+            <!--文章列表搜索-->
+            <div class="panel-heading ArtMansearch">
+                <form action="../Article/showList" method="post">
+                <div class="wholeBtn">
+                    <input type="submit" class="btn btn-default" value="显示全部文章" name="WholeBtn">
+                </div>
+                </form>
+                <!--<form action="" method="post">-->
+                <div class="searchLeft">
+                    <select class="form-control leftTitle" id="Page">
+                        <option>5</option>
+                        <option>10</option>
+                        <option>15</option>
+                        <option>20</option>
+                    </select>
+                    <select class="form-control leftTitle" name="State">
+                        <option>按状态</option>
+                        <option>已审核</option>
+                        <option>未审核</option>
+                    </select>
+                    <select class="form-control leftTitle" name="Type">
+                        <option>按标题</option>
+                        <option>按所属类</option>
+                        <option>按发布人</option>
+                    </select>
+                </div>
+                <div class="input-group custom-search-form searchRight">
+                    <input type="text" class="form-control" name="Text">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" name="SearchBtn">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+                <!--</form>-->
+
+            </div>
+            <!--文章列表搜索-->
+            <div class="panel-body">
+                <div id="return"></div>
+                <!--<div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate" style="float: right">-->
+                    <!--{$page}-->
+                <!--</div>-->
+                <!-- /.table-responsive -->
+            </div>
+
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<div id="modal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content" style="margin-top: 80%">
+            <div style="width: 300px;height: 150px">
+                <div style="padding: 20px 20px 20px 55px;text-align: left;position: relative;line-height: 24px;word-break: break-all;font-size: 14px;overflow: auto;">
+                    你确定要删除吗？
+                </div>
+                <a id="yes" class="btn btn-default btn-sm" href="#" role="button" style="margin-left: 60%;margin-top: 35px;"  data-dismiss="modal">确定</a>
+                <a id="no" class="btn btn-default btn-sm" href="#" role="button" style="margin-top: 35px;"  data-dismiss="modal">取消</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    /*删除*/
+    $(".del").on('click',function(){
+        id = $(this).data('id');
+        $('#modal').modal('show');
+        $('#modal').find('a').eq(0).on('click',function () {
+            $('#modal').on('hidden.bs.modal', function (e) {
+                $(window).attr('location','http://localhost/index.php/blogadmin/Article/deleteArticle?Article_id='+id+'');
+            })
+        })
+    });
+    /*显示默认选择行 5 */
+    $(function () {
+        var PageVal = $("#Page").val();
+        $.ajax({
+            type:"GET",
+            url:"/index.php/blogadmin/article/dataTablesExampleLength",
+            data:{"length":PageVal,"page":1},
+            dataType:"html",
+            success:function (Return) {
+                $("#return").html(Return);
+            }
+        })
+    })
+    /*选择显示行*/
+    $("#Page").change(function () {
+        var PageVal = $(this).val();
+        $.ajax({
+            type:"GET",
+            url:"/index.php/blogadmin/article/dataTablesExampleLength",
+            data:{"length":PageVal,"page":1},
+            dataType:"html",
+            success:function (Return) {
+                $("#return").html(Return);
+            }
+        })
+    })
+    /*搜索fun*/
+    $("button[name='SearchBtn']").on("click",function () {
+        var Page = $("#Page").val();  //根据id、 获取需要显示的行数   默认：5
+        var Type = $("select[name='Type']").val(); //根据name、 获取搜索的标题   默认：按标题
+        var State = $("select[name='State']").val(); //根据name、 获取搜索的标题   默认：按状态
+        var Name = $("input[name='Text']").val(); //获取inout=text的值
+
+
+        if(Name!=null && Name!='' && Name!="") {
+            if (Type === "按标题") {
+                AJAS(Name,Type)
+//                console.log(Type);
+//                console.log(Name);
+            } else if (Type === "按所属类") {
+                AJAS(Name,Type)
+//                console.log(Type);
+//                console.log(Name);
+            } else if (Type === "按发布人") {
+                AJAS(Name,Type)
+//                console.log(Type);
+//                console.log(Name);
+            }
+        }else alert("输入值不能为空"); /*输入值为null*/
+    })
+
+    function AJAS(name,type) {
+        var PageVal = $("#Page").val();
+        $.ajax({
+            type:"GET",
+            url:"/index.php/blogadmin/article/searchAJSX",
+            data:{"name":name,"type":type,"length":PageVal},
+            dataType:"html",
+            success:function (Return) {
+                $("#return").html(Return);
+            }
+        })
+    }
+    $("select[name='State']").change(function () {
+        var State = $(this).val();
+        var PageVal = $("#Page").val();
+        $.ajax({
+            type:"GET",
+            url:"/index.php/blogadmin/article/stateAJAX",
+            data:{"state":State,"length":PageVal},
+            dataType:"html",
+            success:function (Return) {
+                $("#return").html(Return);
+            }
+        })
+    })
+
+</script>
+{include file="public/tail" /}
+

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>我的文章</title>
+    <link rel="icon" href="/thinkphp5/public/static/img/login.png" type="image/x-icon"/>
+    <link rel="stylesheet" href="/thinkphp5/public/static/css/bootstrap.css" />
+    <link rel="stylesheet" href="/thinkphp5/public/static/css/mycss.css"/>
+</head>
+<body>
+<div class="box">
+    <div class="top_nav"><!--导航-->
+        <div class="left"><a href="/thinkphp5/public/index.php/message/message/index"><img src="/thinkphp5/public/static/img/login.png"/>首页</a></div>
+        <div class="right">
+            <ul>
+                <li class="nav_login"><a><img src="/thinkphp5/public/static/img/Nav.png" >{$UserLoginname}</a></li>
+                <li><a href="/thinkphp5/public/index.php/message/message/my"><img src="/thinkphp5/public/static/img/Article.png"/>我的文章(<span id="MeArticle">{$UserPostNum}</span>)</a></li>
+                <li><a href=""><img src="/thinkphp5/public/static/img/@.png" />与我相关(<span id="MeNum">{$UserMyNum}</span>)</a></li>
+                <li><a href="/thinkphp5/public/index.php/message/message/out">注销<img src="/thinkphp5/public/static/img/outgoing.png" style="margin-top: 9px;"/></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="search"><!--搜索-->
+        <div class="Input">
+            <form action="" method="post">
+                <input type="text" class="form-control text" name="selectname">
+                <input type="submit" value="搜索" class="btn btn-default button" name="searchBtn"></button>
+                <a href="my?type=添加" class="btn btn-default button insertBtn" role="button" style="background: #286090; color: #fff" >添加</a>
+            </form>
+        </div>
+    </div>
+    <div class="conent">
+        <form action="" method="post">
+            <dl>
+                <dt class="title">帖子标题</dt>
+                <dt class="brief">帖子简介</dt>
+                <dt class="time">帖子发表时间</dt>
+                <dt class="nums">帖子评论数</dt>
+                <dt class="caozuo">操作</dt>
+            </dl>
+            {volist name="Mypost" id="vo1"}
+            <dl>
+
+                <a>
+                    <dd class="title">{$vo1.post_name}</dd>
+                    <dd class="brief">{$vo1.post_brief}</dd>
+                    <dd class="time">{$vo1.post_time}</dd>
+                    <dd class="nums">{$vo1.post_comment_num}</dd>
+                    <dd class="caozuo">
+                        <a href="my?type=修改&uppost_id={$vo1.post_id}" class="btn btn-default button updateBtn" href="" role="button" style="background: #f0ad4e; color: #fff" id="BTNS">修改</a>
+                        <a href="my?type=删除&deletepost_id={$vo1.post_id}" class="btn btn-default button " href="#" role="button" style="background: #d9534f; color: #fff">删除</a>
+                    </dd>
+                </a>
+
+            </dl>
+            {/volist}
+        </form>
+    </div>
+</div>
+<div class="imgbox"></div>
+<div class="top">
+<div class="To">
+    <div class="close"></div>
+    <form action="/thinkphp5/public/index.php/message/message/into" method="post">
+    <input type="hidden" name="Id" value={$upPost_id}>
+    <div class="Title_Brief">
+    <input type="text" class="form-control Title" placeholder="标题" name="Title" value={$upPost_name}>
+    <input type="text" class="form-control Brief " placeholder="简介" name="Brief" value={$upPost_brief}>
+    </div>
+    <textarea class="form-control " rows="3"  placeholder="内容" name="Textarea">{$upPost_conent}</textarea>
+    <button type="submit" class="btn btn-default" name="Btn">确定</button>
+    </form>
+</div>
+</div>
+</body>
+</html>
+<script type="text/javascript" src="/thinkphp5/public/static/js/jquery-3.3.1.min.js" ></script>
+<script type="text/javascript" src="/thinkphp5/public/static/js/my.js"></script>
