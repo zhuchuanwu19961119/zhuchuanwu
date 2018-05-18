@@ -229,6 +229,12 @@ class Goodsmanage extends Base{
 //        echo $Lenght."<br>"; //输出
         $code=substr($goods_code,intval($Lenght));  //截取
         $code = $code.$rand;
+//        echo $code."<br>"; //最后的验证码
+//        echo intval(strlen($code))."<br>";
+        if(intval(strlen($code))>16){
+            $code=substr($code,0,10);  //截取
+            $code = $code.$rand;
+        }
         echo $code; //最后的验证码
     }
     /**

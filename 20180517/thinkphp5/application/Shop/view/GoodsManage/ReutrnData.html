@@ -29,6 +29,7 @@
         {$price}
     </td>
     <td style="width: 55px;">
+
         <?php
             if($GoodsData['goods_state']==1)
                 $fai="fa-check";
@@ -38,14 +39,26 @@
         <i class="fa {$fai} fa-fw">
         </i>
         </td>
-    {volist name="TypeData" id="TypeData"}
-    <?php
-        if($GoodsData['goods_type'] == $TypeData['type_id']){
-            $name = $TypeData['type_name'];
-         }
-    ?>
-    {/volist}
-    <td style="width: auto;">{$name}</td>
+
+
+    <td style="width: auto;">
+      <?php
+            while($TypeData){
+                for($i =0 ;$i<count($TypeData);$i++){
+                 if($TypeData[$i]['type_id'] == $GoodsData['goods_type'] && ($TypeData[$i]['father_id']>0))
+
+                     for($j =0 ;$j<count($TypeData);$j++){
+                        if($TypeData[$i]["father_id"] == $TypeData[$j]["type_id"])
+                            echo $TypeData[$j]['type_name']."/".$TypeData[$i]['type_name'];
+                     }
+                    else if($TypeData[$i]['type_id'] == $GoodsData['goods_type']){
+                            echo $TypeData[$i]['type_name'];
+                        }
+                }
+                break;
+            }
+        ?>
+    </td>
     <td style="width: auto;">{$Brand_name}</td>
     <td style="width: auto;">{$GoodsData.goods_stock}</td>
     <td style="width: 100px;">
