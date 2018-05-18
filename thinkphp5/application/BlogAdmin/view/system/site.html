@@ -1,0 +1,142 @@
+{include file="public/header" /}
+<!--内容显示-->
+<!-- blog/Admin CSS -->
+<link rel="stylesheet" href="__STATIC__/blog/admin.css">
+<!-- 文章管理 类别显示页面-->
+<div class="row">
+    <div class="col-lg-12" style="margin-top: 25px;">
+        <div class="panel panel-default">
+            <!--文章标头-->
+            <div class="panel-heading ArtManHeader">
+                站点信息设置
+            </div>
+            <!--文章标头-->
+            <!--文章列表搜索-->
+            <div class="panel-heading">
+                <form style="margin-left:20%;margin-top:3px;" class="form-horizontal ajaxForm2" enctype="multipart/form-data" method="post" action="../system/updatasite" >
+                    {volist name="SiteDate" id="Site"}
+                    <div class="form-group" >
+                    <label class="col-sm-2 control-label no-padding-right"> 网站备案号： </label>
+                    <div class="col-sm-5">
+                        <input type="text" name="site_record_number" value="{$Site.site_record_number}" class="col-xs-10 col-sm-6 form-control" readonly>
+                    </div>
+                        <div class="col-sm-10" style="padding-top:5px;margin-left: 18%">
+                            <span style="color: #737373;">&nbsp;&nbsp;网站备案号，将显示在前台底部欢迎信息等位置</span>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    <div class="form-group" >
+                        <label class="col-sm-2 control-label no-padding-right"> 网站名称： </label>
+                        <div class="col-sm-5">
+                            <input type="text" name="site_name"  value="{$Site.site_name}" placeholder="必填" class="col-xs-10 col-sm-6 form-control">
+                        </div>
+                        <div class="col-sm-10" style="padding-top:5px;margin-left: 18%">
+                            <span style="color: #737373;">&nbsp;&nbsp;网站名称，将显示在前台顶部欢迎信息等位置</span>
+                        </div>
+
+                    </div>
+                    <div class="space-4"></div>
+                    <div class="form-group" >
+                        <label class="col-sm-2 control-label no-padding-right"> 网站标题： </label>
+                        <div class="col-sm-5">
+                            <input type="text"name="site_title"   value="{$Site.site_title}" placeholder="必填" class="col-xs-10 col-sm-6 form-control">
+                        </div>
+                        <div class="col-sm-10" style="padding-top:5px;margin-left: 18%">
+                            <span style="color: #737373;">&nbsp;&nbsp;网站标题，将显示在前台顶部欢迎信息等位置</span>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    <div class="form-group" >
+                        <label class="col-sm-2 control-label no-padding-right"> 网站描述： </label>
+                        <div class="col-sm-5">
+                            <input type="text" name="site_describe"  value="{$Site.site_describe}" placeholder="必填" class="col-xs-10 col-sm-6 form-control">
+                        </div>
+                        <div class="col-sm-10" style="padding-top:5px;margin-left: 18%">
+                            <span style="color: #737373;">&nbsp;&nbsp;网站描述，将显示在前台顶部欢迎信息等位置</span>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    <div class="form-group" >
+                        <label class="col-sm-2 control-label no-padding-right"> 网站关键字： </label>
+                        <div class="col-sm-5">
+                            <input type="text" name="site_keyword" value="{$Site.site_keyword}" placeholder="必填" class="col-xs-10 col-sm-6 form-control">
+                        </div>
+                        <div class="col-sm-10" style="padding-top:5px;margin-left: 18%">
+                            <span style="color: #737373;">&nbsp;&nbsp;网站关键字，便于SEO，字段用 | 或者英文逗号 , 相隔</span>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    <div class="form-group" style="display: none">
+                        <label class="col-sm-2 control-label no-padding-right"> 网站标题图标： </label>
+                        <div class="col-sm-5">
+                            <input type="file" name="text" placeholder="" class="col-xs-10 col-sm-6 form-control">
+                        </div>
+                        <i class="fa fa-picture-o"></i>
+                        <div class="col-sm-10" style="padding-top:5px;margin-left: 18%">
+                            <span style="color: #737373;">&nbsp;&nbsp;网站标题图标LOGO,最佳显示尺寸为48*48像素</span>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    <div class="form-group" >
+                        <label class="col-sm-2 control-label no-padding-right"> 联系方式： </label>
+                        <div class="col-sm-5">
+                            <input type="text" name="site_phone"  value="{$Site.site_phone}" placeholder="必填" class="col-xs-10 col-sm-6 form-control">
+                        </div>
+                        <div class="col-sm-10" style="padding-top:5px;margin-left: 18%">
+                            <span style="color: #737373;">&nbsp;&nbsp;1.商家中心右下侧显示，方便商家遇到问题时咨询<br>
+                                                                &nbsp;&nbsp;2.客服电话, 当用户下单时接收下单提示短信</span>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    <div class="form-group" >
+                        <label class="col-sm-2 control-label no-padding-right"> 联系邮箱： </label>
+                        <div class="col-sm-5">
+                            <input type="text" name="site_email" value="{$Site.site_email}" placeholder="必填"class="col-xs-10 col-sm-6 form-control">
+                        </div>
+                        <div class="col-sm-10" style="padding-top:5px;margin-left: 18%">
+                            <span style="color: #737373;">&nbsp;&nbsp;商家中心右下侧显示，方便商家遇到问题时咨询</span>
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <label class="col-sm-2 control-label no-padding-right"> 详细地址： </label>
+                        <div class="col-sm-5">
+                            <input type="text" name="site_add"  value="{$Site.site_add}" placeholder="必填" class="col-xs-10 col-sm-6 form-control">
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    <div class="form-group" >
+                        <label class="col-sm-2 control-label no-padding-right"> 客服QQ： </label>
+                        <div class="col-sm-5">
+                            <input type="text" name="site_service_qq"  value="{$Site.site_service_qq}" placeholder="必填" class="col-xs-10 col-sm-6 form-control">
+                        </div>
+                        <div class="col-sm-10" style="padding-top:5px;margin-left: 18%">
+                            <span style="color: #737373;">&nbsp;&nbsp;商家中心右下侧显示，方便商家遇到问题时咨询</span>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+
+                    <div class="clearfix form-actions" style="margin-left: -10%">
+                        <div class="col-md-offset-3 col-md-9"  >
+                            <button  class="btn btn-info" type="submit" name="SonBtn" >
+                                <i class="ace-icon fa fa-check bigger-110"></i>
+                                上传
+                            </button>
+                            &nbsp; &nbsp; &nbsp;
+                            <button class="btn" type="reset">
+                                <i class="ace-icon fa fa-undo bigger-110"></i>
+                                重置
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                {/volist}
+            </div>
+            <!--文章列表搜索-->
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+{include file="public/tail" /}
+

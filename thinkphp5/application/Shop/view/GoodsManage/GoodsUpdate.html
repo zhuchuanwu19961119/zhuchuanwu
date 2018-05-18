@@ -1,0 +1,233 @@
+{include file="public/header" /}
+<!--内容显示-->
+<link rel="stylesheet" href="__STATIC__/blog/admin.css">
+<div class="row">
+    <div class="col-lg-12" style="margin-top: 25px;">
+        <div class="panel panel-default">
+            <!--标头-->
+            <div class="panel-heading ArtManHeader">
+                <div style="float: left"><a href="../home/index">后台管理中心</a> - {$Title}</div>
+            </div>
+            <form class="form-horizontal ajaxForm2" id="GoodsGFrom" method="get" action="../Goodsmanage/InsertGoods" >
+                <!--<h4>基本信息</h4>-->
+                <div id="jiben" style="margin-left:20%;margin-top: 35px;">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right"> 商品名称： </label>
+                        <div class="col-sm-10">
+                            <input type="text" name="name" class="col-xs-10 col-sm-6 form-control" style="float: left;width:250px;display: block;">
+                            <i class="fa fa-fw fa-question-circle" style="float: left;display: block;height: 34px;line-height: 34px;margin-left: 5px;" data-toggle="tooltip" data-placement="right" title="商品名称为必填项"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right"> 商品别名： </label>
+                        <div class="col-sm-10">
+                            <input type="text" name="biename" class="col-xs-10 col-sm-6 form-control" style="float: left;width: 250px;display: block;">
+                            <i class="fa fa-fw fa-question-circle" style="float: left;display: block;height: 34px;line-height: 34px;margin-left: 5px;" data-toggle="tooltip" data-placement="right" title="商品别名为选填项,如果为空,将默认为商品名称"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right"> 商品货号： </label>
+                        <div class="col-sm-10">
+                            <input type="text" name="huohao" class="col-xs-10 col-sm-6 form-control" style="float: left;width:250px;display: block;" readonly="readonly">
+                            <!--<i class="fa fa-fw fa-question-circle" style="float: left;display: block;height: 34px;line-height: 34px;margin-left: 5px;" data-toggle="tooltip" data-placement="right" title="如果您不输入商品货号，系统将自动生成一个唯一的货号。"></i>-->
+                            <i id="rand"class="fa fa-star fa-fw" style="float: left;display: block;height: 34px;line-height: 34px;margin-left: 5px;"data-toggle="tooltip" data-placement="right" title="点击生成一个随机的货号"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right"> 商品类别： </label>
+                        <input type="hidden" name="type">
+                        <div class="col-sm-10">
+                            <div id="TypeList">
+                            </div>
+                            <input  type="text" id="addleibie" class="col-xs-10 col-sm-6 form-control" style="float: left;width:250px; ">
+                            <!--<i id="tishi" class="fa fa-fw fa-question-circle" style="float: left;display: block;height: 34px;line-height: 34px;margin-left: 5px;" data-toggle="tooltip" data-placement="right" title="商品类别为必选项"></i>-->
+                            <i id="add"class="fa fa-plus-circle fa-fw" style="float: left;display: block;height: 34px;line-height: 34px;margin-left: 5px;"data-toggle="tooltip" data-placement="right" title="商品类别为必选项,点击添加一个类"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right"> 商品供应商： </label>
+                        <div class="col-sm-10">
+                            <div id="BrandList">
+                            </div>
+                            <i class="fa fa-fw fa-question-circle" style="float: left;display: block;height: 34px;line-height: 34px;margin-left: 5px;" data-toggle="tooltip" data-placement="right" title="商品品牌为必选项"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right"> 商品售价： </label>
+                        <div class="col-sm-10">
+                            <input type="text" name="shoujia" class="col-xs-10 col-sm-6 form-control" style="float: left;width: 250px;display: block;">
+                            <i class="fa fa-fw fa-question-circle" style="float: left;display: block;height: 34px;line-height: 34px;margin-left: 5px;" data-toggle="tooltip" data-placement="right" title="商品售价为必填项"></i>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right"> 商品市场价： </label>
+                        <div class="col-sm-10">
+                            <input type="text" name="shichangjia" class="col-xs-10 col-sm-6 form-control" style="float: left;width:250px;display: block;">
+                            <i class="fa fa-fw fa-question-circle" style="float: left;display: block;height: 34px;line-height: 34px;margin-left: 5px;" data-toggle="tooltip" data-placement="right" title="商品市场价为必选项"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right"> 商品成本价： </label>
+                        <div class="col-sm-10">
+                            <input type="text" name="chengbenjia" class="col-xs-10 col-sm-6 form-control" style="float: left;width:250px;display: block;">
+                            <i class="fa fa-fw fa-question-circle" style="float: left;display: block;height: 34px;line-height: 34px;margin-left: 5px;" data-toggle="tooltip" data-placement="right" title="商品成本价为必选项"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right"> 商品库存： </label>
+                        <div class="col-sm-10">
+                            <input type="text" name="kucun" class="col-xs-10 col-sm-6 form-control" style="float: left;width: 250px;display: block;">
+                            <i class="fa fa-fw fa-question-circle" style="float: left;display: block;height: 34px;line-height: 34px;margin-left: 5px;" data-toggle="tooltip" data-placement="right" title="商品库存为必填项"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right"> 商品关键字： </label>
+                        <div class="col-sm-10">
+                            <input type="text" name="guanjianzi" class="col-xs-10 col-sm-6 form-control" style="float: left;width: 250px;display: block;">
+                            <i class="fa fa-fw fa-question-circle" style="float: left;display: block;height: 34px;line-height: 34px;margin-left: 5px;" data-toggle="tooltip" data-placement="right" title="关键字为选填项,以 | 相隔多个关键字"></i>
+                        </div>
+                    </div>
+                    {volist name="GoodsData" id="GoodsData"}
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right"> 商品效果图： </label>
+                        <input type="text" id="Goods_id" value={$GoodsData.goods_id}>
+                        <input type="text" id="Goods_code" value={$GoodsData.goods_code}>
+                        <div class="col-sm-10">
+                            <input id="files" type="file" style="display:none" onchange="showImgs()" value={$GoodsData.goods_thumbnail}>
+                            <div class="input-append">
+                                <input id="photoCover"  class="input-large form-control" type="text" style="height:30px;width:250px;float: left" readonly="readonly" value="{$GoodsData.goods_thumbnail}">
+                                <i onclick="$('input[id=files]').click();" class="fa fa-fw fa-plus-circle " style="float: left;display: block;height: 34px;line-height: 34px;margin-left: 5px;" data-toggle="tooltip" data-placement="right" title="点击添加商品信息图"></i>
+                                <div style="position: absolute;right:90px;top: -125px;">
+                                    <img id="ReturnImg" src={$GoodsData.goods_thumbnail} style="width: 300px;height: 250px;" class="img-rounded" />
+                                </div>
+                                <i id="Delimg" class="fa fa-trash-o fa-fw"  style="float: left;display: block;height: 34px;line-height: 34px;margin-left: 5px;"  title="删除商品"></i>
+                            </div>
+                        </div>
+                        {/volist}
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right"> 虚拟商品： </label>
+                        <div class="col-sm-5">
+                            <ul class="pagination" style="display: inline-block;padding-left:  85px;float: left;margin: 0 0;" id="fictitious">
+                                <li>
+                                    <a data-id="1">是</a>
+                                </li>
+                                <li  class="active">
+                                    <a data-id="2">否</a>
+                                </li>
+                                <input type="hidden" name="xuni">
+                            </ul><i class="fa fa-fw fa-question-circle" style="float: left;display: block;height: 34px;line-height: 34px;margin-left: 5px;" data-toggle="tooltip" data-placement="right" title="默认为否"></i>
+                        </div>
+                        <div class="space-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right"> 是否上架： </label>
+                        <div class="col-sm-5">
+                            <ul class="pagination" style="display: inline-block;padding-left:  85px;float: left;margin: 0 0;" id="shelf">
+                                <li class="active">
+                                    <a data-id="1">是</a>
+                                </li>
+                                <li>
+                                    <a data-id="2">否</a>
+                                </li>
+                                <input type="hidden" name="shangjia">
+                            </ul>
+                            <i class="fa fa-fw fa-question-circle" style="float: left;display: block;height: 34px;line-height: 34px;margin-left: 5px;" data-toggle="tooltip" data-placement="right" title="默认为上架"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right"> 商品包邮： </label>
+                        <div class="col-sm-5">
+                            <ul class="pagination" style="display: inline-block;padding-left: 85px;float: left;margin: 0 0;" id="free">
+                                <li class="active">
+                                    <a data-id="1">是</a>
+                                </li>
+                                <li>
+                                    <a data-id="2">否</a>
+                                </li>
+                                <input type="hidden" name="baoyou">
+                            </ul>
+                            <i class="fa fa-fw fa-question-circle" style="float: left;display: block;height: 34px;line-height: 34px;margin-left: 5px;" data-toggle="tooltip" data-placement="right" title="默认为包邮"></i>
+                        </div>
+
+                        <div class="space-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right"> 商品添加时间： </label>
+                        <div class="col-sm-10">
+                            <input id="time" type="text" name="addtime" class="col-xs-10 col-sm-6 form-control" style="float: left;width:250px;display: block;"readonly>
+                        </div>
+
+                        <div class="space-4"></div>
+                    </div>
+                </div>
+                <div id="xiangqing" style="display: none;margin: 15px;">
+                    <a href="../Home/ReturnOne" style="margin-left: 15px; margin-top: 15px"><i class="fa fa-reply fa-fw"></i>返回上一层</a>.
+                    <textarea id="editor" name="Textarea" style="width: 100%;height: 350px;margin: 0 auto; margin-top: 5px;"></textarea>
+                </div>
+                <div class="clearfix form-actions" style="margin-left: 10%;margin-top: 5%">
+                    <div class="col-md-offset-3 col-md-9">
+                        <button class="btn btn-info" type="button" name="insertBtn" >
+                            <i class="ace-icon fa fa-check bigger-110"></i>
+                            保存
+                        </button>
+                        &nbsp; &nbsp; &nbsp;
+                        <button class="btn" type="reset">
+                            <i class="ace-icon fa fa-undo bigger-110"></i>
+                            重置
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    /*显示图片*/
+    function showImgs() {
+        var formdata=new FormData();
+        formdata.append("files" , $("input[type='file']")[0].files[0]);
+        $.ajax({
+            type:"POST",
+            url:"../Goodsmanage/showLogo",
+            data:formdata,
+            cache:false,
+            processData:false,
+            contentType:false,
+            success:function(data){
+                $("#photoCover").val("");
+                $("#photoCover").val(data);
+                $("#ReturnImg").attr("src",data);
+                $("#ReturnImg").show();
+                $("#Delimg").show();
+            }
+        })
+    }
+
+
+    $("button[name='insertBtn']").click(function () {
+//        $.ajax({
+//            type:"POST",
+//            url: "../Goodsmanage/CopyImg",
+//            data:{}
+//        });
+        var Goods_id = $("#Goods_id").val();
+        var Goods_code = $("#Goods_code").val();
+        $.ajax({
+            type:"GET" ,
+            url:"../GoodsManage/UpdateGoods" ,
+            data:{"goods_id":Goods_id,"goods_code":Goods_code} ,
+            dataType: "text",
+            traditional: true,
+            success: function (outData) {
+                console.log(outData);
+                if (outData === "1") {
+//                    alert("添加成功，详情请到首页查看");
+                    window.location.href = "../GoodsManage/showUpdate?goods_id="+Goods_id;
+                }
+            }
+        });
+    })
+</script>
+{include file="public/tail" /}

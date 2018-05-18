@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>文章</title>
+    <link rel="icon" href="/thinkphp5/public/static/img/login.png" type="image/x-icon"/>
+    <link rel="stylesheet" href="/thinkphp5/public/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/thinkphp5/public/static/css/contentcss.css">
+</head>
+<body>
+<div class="box">
+    <div class="top_nav"><!--导航-->
+        <div class="left"><a href="/thinkphp5/public/index.php/message/message/index"><img src="/thinkphp5/public/static/img/login.png"/>首页</a></div>
+        <div class="right">
+            <ul>
+                <li class="nav_login"><a><img src="/thinkphp5/public/static/img/Nav.png" >{$UserLoginname}</a></li>
+                <li><a href="/thinkphp5/public/index.php/message/message/my"><img src="/thinkphp5/public/static/img/Article.png"/>我的文章(<span id="MeArticle">{$UserPostNum}</span>)</a></li>
+                <li><a href=""><img src="/thinkphp5/public/static/img/@.png" />与我相关(<span id="MeNum">{$UserMyNum}</span>)</a></li>
+                <li><a href="/thinkphp5/public/index.php/message/message/out">注销<img src="/thinkphp5/public/static/img/outgoing.png" style="margin-top: 9px;"/></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content">
+        <div class="content_left">
+            <div class="information">
+                <img src="/thinkphp5/public/static/img/Nav.png" class="portrait">
+                <span class="name">{$Author}</span>
+                <ul class="huangguanul">
+                    <li> <img src="/thinkphp5/public/static/img/huangguan.png" class="huanguang"></li>
+                    <li> <img src="/thinkphp5/public/static/img/huangguan.png" class="huanguang"></li>
+                    <li> <img src="/thinkphp5/public/static/img/huangguan.png" class="huanguang"></li>
+                    <li> <img src="/thinkphp5/public/static/img/huangguan.png" class="huanguang"></li>
+                    <li> <img src="/thinkphp5/public/static/img/huangguan.png" class="huanguang"></li>
+                    <li> <img src="/thinkphp5/public/static/img/huangguan.png" class="huanguang"></li>
+                </ul>
+            </div>
+        </div>
+        <div class="content_right">
+            {volist name="Post" id="vo"}
+            <div class="Title"><span class="B">{$vo.post_name}</span><span class="T">{$vo.post_time}</span></div>
+            <div class="content"><p>{$vo.post_conent}</p></div>
+            <div class="comment">
+                {volist name="Comment" id="vo1"}
+                <ul class="commentul">
+                    <li class="title">
+                        <span style="float: left">{$vo1.user_loginname}:</span>
+                        <form action="" method="post">
+                            <input type="hidden" name="times" value=""></input>
+                            <!--<input type="submit" value="删除" class="btn btn-default" name="delete" style="background: rgba(0,0,0,0);border: 1px ;color: red;margin-top: -4px"></button>-->
+                            <span style="float: right">{$vo1.comment_time}</span>
+                        </form>
+                    </li>
+                    <li><p style="text-indent:30px;height: 100%;display: block">{$vo1.comment_conent}</p>
+                    </li>
+
+                </ul>
+                {/volist}
+            </div>
+
+            <div class="comment_input">
+                <form action="/thinkphp5/public/index.php/message/message/insrtcomme" method="post">
+                    <input type="hidden" name="post_id" value={$vo.post_id}></input>
+                    <textarea class="form-control" rows="3" name="comment_conent"></textarea>
+                    <button type="submit" class="btn btn-default" name="commetBtn">发表评论</button>
+                </form>
+            </div>
+            {/volist}
+        </div>
+    </div>
+</div>
+<div class="imgbox"></div>
+</body>
+</html>
+
+

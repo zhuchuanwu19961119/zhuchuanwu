@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User_reginster</title>
+    <link rel="icon" href="/thinkphp5/public/static/img/login.png" type="image/x-icon"/>
+    <link rel="stylesheet" href="/thinkphp5/public/static/css/bootstrap.css" />
+    <link rel="stylesheet" href="/thinkphp5/public/static/css/logincss.css">
+</head>
+<body>
+<div class="box">
+
+    <div class="login">
+        <a class="A" href="login.html">注册</a>
+        <div class="content">
+            <form action="/thinkphp5/public/index.php/bloguser/user/ifregster" method="post">
+                <input type="text" class="form-control input" placeholder="账号"  name="user_name" >
+                <input type="password" class="form-control input" placeholder="密码" name="user_password">
+                <input type="password" class="form-control input" placeholder="确认密码" name="user_passwords">
+                <input type="text" class="form-control input" placeholder="验证码" name="Verification_Code">
+                <div class="verify"><img src="/thinkphp5/public/index.php/bloguser/user/verify"></div>
+                <input type="submit" value="注册" class="btn btn-default button" name="regsterBtn"></button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="imgbox"></div>
+</body>
+</html>

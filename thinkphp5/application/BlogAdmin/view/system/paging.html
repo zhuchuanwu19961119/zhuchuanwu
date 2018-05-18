@@ -1,0 +1,82 @@
+{include file="public/header" /}
+<!--内容显示-->
+<!-- blog/Admin CSS -->
+<link rel="stylesheet" href="__STATIC__/blog/admin.css">
+<!-- 文章管理 类别显示页面-->
+<div class="row">
+    <div class="col-lg-12" style="margin-top: 25px;">
+        <div class="panel panel-default">
+            <!--文章标头-->
+            <div class="panel-heading ArtManHeader">
+                 分页设置
+            </div>
+            <!--文章标头-->
+            <!--文章列表搜索-->
+            <div class="panel-heading">
+                <form method="post" action="../system/updatePag" class="form-horizontal ajaxForm2"  style="margin-left:20%;margin-top: 35px;">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right"> 当前分页： </label>
+                        <div class="col-sm-5">
+                            <input type="text" name="text" placeholder="10" class="col-xs-10 col-sm-6 form-control" value="{$list_rows}">
+                            <!--<select class="form-control" id="home" name="father_id">-->
+                                <!--<?php-->
+                                <!--if($list_rows)-->
+                            <!--?>-->
+                                <!--<option>5</option>-->
+                                <!--<option>10</option>-->
+                                <!--<option>15</option>-->
+                                <!--<option>20</option>-->
+                                <!--<option>25</option>-->
+                                <!--<option>30</option>-->
+                            <!--</select>-->
+                    </div>
+                    </div>
+                    <div class="space-4"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right"> </label>
+                        <div class="col-sm-10" style="padding-top:5px;">
+                            <span  style="color: #737373;" class="lbl">&nbsp;&nbsp;默认分页为&nbsp;10</span>
+                        </div>
+                    </div>
+                    <div class="clearfix form-actions" style="margin-left:0%">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button  disabled="disabled" class="btn btn-info" type="submit" name="SonBtn">
+                                <i class="ace-icon fa fa-check bigger-110"></i>
+                                保存
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--文章列表搜索-->
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<script type="text/javascript">
+//    $("button[name=SonBtn]").on('click',function () {
+//
+//       var text=$("input[name=text]").val();
+//       $.ajax({
+//           type: "GET",
+//           url:"/index.php/blogadmin/system/updatePag",
+//           data:{"text":text},
+//           dataType:"text",
+//           success:function (Return) {
+//               alert(Return);
+//           }
+//       });
+////        alert(text);
+//    });
+    $("input[name=text]").change(function () {
+       if($(this).val() > 50 || $(this).val() <= 0){
+           alert("数值错误 [1-50]");
+       }else
+        $("button[name=SonBtn]").removeAttr("disabled");
+    });
+</script>
+{include file="public/tail" /}
+
