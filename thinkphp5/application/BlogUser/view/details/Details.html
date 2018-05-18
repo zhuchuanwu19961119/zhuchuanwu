@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User_Details</title>
+    <link rel="icon" href="/thinkphp5/public/static/BlogImg/login.png" type="image/x-icon"/>
+    <link rel="stylesheet" href="/thinkphp5/public/static/BlogCss/bootstrap.css" />
+    <link rel="stylesheet" href="/thinkphp5/public/static/BlogCss/Details.css" />
+    <script type="text/javascript" src="/thinkphp5/public/static/ue/ueditor.config.js"></script>
+    <script type="text/javascript" src="/thinkphp5/public/static/ue/ueditor.all.js"></script>
+    <script type="text/javascript">
+    window.onload=function () {
+    var ue = UE.getEditor('editor');
+    }
+    </script>
+<body>
+<div class="Whole">
+
+    <div class="nav">
+        <div class="lefe">
+            <span> <a href="/thinkphp5/public/index.php/bloguser/blog/Home">Home</a></span>
+            <ul>
+                <li><a href="#">生活笔记</a></li>
+                <li><a href="#">技术杂谈</a></li>
+                <li><a href="#">技术交流</a></li>
+                <li><a href="#">心情日记</a></li>
+                <li><a href="#">关于作者</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="infor">
+        <div class="box">
+            <a href="/thinkphp5/public/index.php/bloguser/user/out"><div class="head"></div></a>
+            <div class="name"><input type="hidden" value="12"><a href="/thinkphp5/public/index.php/bloguser/user/login" >{$user_name}</a></div>
+            <div class="name"><a href="/thinkphp5/public/index.php/bloguser/blog/home?Articleclick=1">我的文章数{{$ArticleTotal}}</a></div>
+            <div class="name"><a href="/thinkphp5/public/index.php/bloguser/blog/home?Messageclick=1">我的评论数{{$MessageTotal}}</a></div>
+
+        </div>
+    </div>
+    <div class="content">
+        {volist name='ArticleDate' id='vo'}
+        <div class="title">{$vo.article_title}</div>
+        <div class="user"><span class="author">作者:{$vo.user_id}</span><span class="time">时间:{$vo.article_time}</span></div>
+        <div class="details">
+            <div class="p">{$vo.article_content}</div>
+        </div>
+
+        <div class="operation">
+           <ul>
+               <li id="pinglun"><img src="/thinkphp5/public/static/img/pinglun.png" >{$vo.article_comment_total}</li>
+           </ul>
+        </div>
+        {/volist}
+        {volist name='CommentDate' id='vo1'}
+        <div class="commtnebox">
+            <div class="head"><img src="/thinkphp5/public/static/BlogImg/head.jpg"><span>{$vo1.user_name}：</span><i>{$vo1.comment_time}</i></div>
+            <div class="p"><p>{$vo1.comment_content}</p></div>
+        </div>
+        {/volist}
+    </div>
+    <div class="top">
+        <div class="To">
+            <div class="close" style="z-index:1000;"></div>
+            <form action="/thinkphp5/public/index.php/bloguser/Details/InserComment" method="post">
+                <input type="hidden" name="Id">
+                <textarea id="editor" name="Textarea" style="width: 100%;height: 350px;margin: 0 auto;"></textarea>
+                <button type="submit" class="btn btn-default" name="Btn">确定</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script type="text/javascript" src="/thinkphp5/public/static/BlogJs/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/thinkphp5/public/static/BlogJs/Details.js"></script>

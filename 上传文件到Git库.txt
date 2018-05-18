@@ -1,0 +1,36 @@
+上传到git储存库 
+
+
+git clone https://github.com/zhuchuanwu19961119/zhuchuanwuGit.git MyGit
+
+// 将 url位置上的库colone 到 MYGIT文件夹
+
+
+git init
+
+通过命令 git init 把这个目录变成git可以管理的仓库//
+
+
+git add .
+//使用命令 git add .添加到暂存区里面去
+
+
+git commit -m '提示信息'
+
+//git commit告诉Git，把文件提交到仓库
+
+
+
+git remote add origin 你的远程库地址
+
+//关联到远程库 git remote add origin https://github.com/cade8800/ionic-demo.git
+
+
+git pull --rebase origin master
+//获取远程库与本地同步合并（如果远程库不为空必须做这一步，否则后面的提交会失败）
+
+git push -u origin master
+//把本地库的内容推送到远程，使用 git push命令
+
+git status
+//状态查询命令

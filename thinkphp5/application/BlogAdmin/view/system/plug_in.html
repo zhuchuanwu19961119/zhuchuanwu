@@ -1,0 +1,73 @@
+{include file="public/header" /}
+<!--内容显示-->
+<!-- blog/Admin CSS -->
+<link rel="stylesheet" href="__STATIC__/blog/admin.css">
+<!-- 文章管理 类别显示页面-->
+<div class="row">
+    <div class="col-lg-12" style="margin-top: 25px;">
+        <div class="panel panel-default">
+            <!--文章标头-->
+            <div class="panel-heading ArtManHeader">
+                插件设置
+            </div>
+            <!--文章标头-->
+            <!--文章列表搜索-->
+            <div class="panel-heading">
+                <form class="form-horizontal ajaxForm2" enctype="multipart/form-data" method="post" action="../system/insertLogo" >
+                    <div class="form-group" style="margin-left:25%;margin-top:3px;">
+                        <label class="col-sm-2 control-label no-padding-right"> logo： </label>
+                        <div class="col-sm-5">
+                            <input type="file"  name="logo_image" onchange="showImg()">
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    <div class="form-group">
+                        <img id="fileimg" src="{$src}" style="max-height:500px;max-width: 1000px;margin: 0 auto;display: block;" src="">
+                    </div>
+
+                    <div class="clearfix form-actions" style="margin-left: 23%">
+                        <div class="col-md-offset-3 col-md-9"  >
+                            <?php
+                            if($exist == 1)
+                                $dis='style="display:block"';
+                             else if($exist == 0)
+                                $dis='style="display:none"';
+                        ?>
+                            <button {$dis} class="btn btn-info" type="submit" name="SonBtn" >
+                                <i class="ace-icon fa fa-check bigger-110"></i>
+                                上传
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--文章列表搜索-->
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<script type="text/javascript">
+    function showImg() {
+        var formdata=new FormData();
+        formdata.append("logo_image" , $("input[type='file']")[0].files[0]);
+        $.ajax({
+            type:"POST",
+            url:"/public/index.php/blogadmin/system/showLogo",
+            data:formdata,
+            cache:false,
+            processData:false,
+            contentType:false,
+            success:function(data){
+                $("#fileimg").attr("src",data);
+                $("button[name=SonBtn]").css({
+                    "display" : " block"
+                });
+            }
+        })
+    }
+
+</script>
+{include file="public/tail" /}
+

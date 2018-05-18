@@ -1,0 +1,71 @@
+{include file="public/header" /}
+<!--内容显示-->
+<link rel="stylesheet" href="__STATIC__/blog/admin.css">
+<div class="row">
+    <div class="col-lg-12" style="margin-top:25px;">
+        <div class="panel panel-default">
+            <!--标头-->
+            <div class="panel-heading ArtManHeader">
+                <div style="float: left"><a href="../home/index">后台管理中心</a> - {$Title}<a href="../Home/ReturnUp" style="margin-left: 15px;"><i class="fa fa-reply fa-fw"></i></a></div>
+                <div style="float: right">
+                    <a href="../GoodsManage/showInsert">
+                    <button type="button" class="btn  btn-primary btn-xs">
+                        <i class="fa fa-plus fa-fw"></i>
+                        添加新商品
+                    </button>
+                    </a>
+                </div>
+
+            </div>
+            <!--搜索栏-->
+            <div class="panel-heading ArtManHeader">
+                <div style="float: left">
+                    <a href="#"><i class="fa  fa-search fa-fw" style="display: block;float: left;width: 30px; height: 30px;" title="显示全部商品"></i></a>
+                    <select class="form-control" style="width:auto;margin-left:25px;float: left;height: 32px;margin-top: -6px;padding:0px 12px;">
+                        <option>全部分类</option>
+                        {volist name="TypeData" id="TypeData"}
+                            <option>{$TypeData.type_name}</option>
+                        {/volist}
+                    </select>
+                    <select class="form-control" style="width:auto;margin-left:10px;float: left;height: 32px;margin-top: -6px;padding:0px 12px;">
+                        <option>全部品牌</option>
+                        {volist name="BrandData" id="BrandData"}
+                        <option>{$BrandData.brand_name}</option>
+                        {/volist}
+                    </select>
+                    <!--<select class="form-control" style="width:105px;margin-left:10px;float: left;height: 32px;margin-top: -6px;padding:0px 12px;">-->
+                        <!--<option>全部分类</option>-->
+                    <!--</select>-->
+                    <select class="form-control" style="width:105px;margin-left:10px;float: left;height: 32px;margin-top: -6px;padding:0px 12px;">
+                        <option>上架商品</option>
+                        <option>下架商品</option>
+                    </select>
+                    <div class="form-group input-group" style="width: 35%;margin-top: -6px;height: 32px;float: right">
+                        <input type="text" class="form-control" style="height: 32px;" title="请输入商品关键字">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" style="height: 32px;" title="搜索商品"><i class="fa fa-search" ></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!--商品表显示-->
+            <div id="ReutrnData">
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $.ajax({
+            type:"GET",
+            url:"../Goodsmanage/showGoods",
+            data:{},
+            dataType:"html",
+            success:function (Return) {
+                $("#ReutrnData").html(Return);
+            }
+        })
+    })
+</script>
+{include file="public/tail" /}

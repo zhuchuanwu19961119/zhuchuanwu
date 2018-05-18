@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User_Login</title>
+    <link rel="icon" href="/thinkphp5/public/static/BlogImg/login.png" type="image/x-icon"/>
+    <link rel="stylesheet" href="/thinkphp5/public/static/BlogCss/bootstrap.css" />
+    <link rel="stylesheet" href="/thinkphp5/public/static/BlogCss/logincss.css">
+</head>
+<body>
+<div class="box">
+
+    <div class="login">
+        <a class="A" href="register.html">登录</a>
+        <div class="content">
+            <form action="/thinkphp5/public/index.php/bloguser/user/iflogin" method="post">
+                <input type="text" class="form-control input" placeholder="账号"  name="user_name" value="{$UserName}" >
+                <input type="password" class="form-control input" placeholder="密码" name="user_password">
+                <input type="text" class="form-control input" placeholder="验证码" name="Verification_Code">
+                <div class="verify"><img src="/thinkphp5/public/index.php/bloguser/user/verify"></div>
+                <input type="submit" value="登录" class="btn btn-default button" name="loginBtn"></button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="imgbox"></div>
+</body>
+</html>

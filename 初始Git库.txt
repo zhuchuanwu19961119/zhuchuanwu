@@ -1,0 +1,30 @@
+
+将写好的代码传到github上时，需要先创建一个新的储存库，步骤如下： 
+1.
+Shell代码  收藏代码
+touch README.md  
+
+创建名为README.md的文件 
+2.
+Shell代码  收藏代码
+git init  
+
+git初始化 
+3.
+Shell代码  收藏代码
+git add README.md  
+
+把README.md的文件加到git上 
+4.
+Shell代码  收藏代码
+git commit -m "first commit"  
+
+上传到本地 
+5.
+Shell代码  收藏代码
+git remote add origin https://github.com/lizhim/party_bid_core.git  
+
+连接本地和远程git库 
+6.
+Shell代码  收藏代码
+git push -u origin master  

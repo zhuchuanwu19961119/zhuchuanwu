@@ -1,0 +1,40 @@
+{extend name="admin@public/base" /}
+{block name="main-content"}
+<div class="page-content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="row">
+	<div class="space-6"></div>
+	<div class="col-sm-7">
+          <div class="clearfix"></div>            
+	  <!-- 文章排行开始 -->
+          <table class="table table-bordered">
+	    <thead class="">
+	      <tr>
+                <th>N</th>
+		<th>标题</th>
+		<th><em>点击数</em></th>
+	      </tr>
+	    </thead>
+	    <tbody>
+
+	      {foreach name="news_list" item="v" key="k"}
+	      <tr>
+                <td>{$k+1}</td>
+		<td><a href="{:url('home/News/index',array('id'=>$v['n_id']))}" target="_blank">{$v.news_title}</a></td>
+		<td>{$v.news_hits}</td>
+	      </tr>
+	      {/foreach}
+	    </tbody>
+	  </table>      
+        </div>
+        <div class="col-sm-5">
+	  {:hook('maintain')}      
+          <!-- 文章排行结束 -->
+	</div>
+      </div>
+    </div><!-- /.row -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+</div>
+{/block}
