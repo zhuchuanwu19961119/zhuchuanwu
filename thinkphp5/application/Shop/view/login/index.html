@@ -44,7 +44,7 @@
                     <div class="form-group">
                         <input onkeydown="keydown()"class="form-control" placeholder="验证码" name="Verification_Code" type="text">
                     </div>
-                    <div id="verify" style="margin-bottom: 15px;"><img id="verify_code" style="width: 100%" src="../login/showVerify"></div>
+                    <div id="verify" style="margin-bottom: 15px;"><img id="verify_code" style="width: 100%" src="../login/verify"></div>
                     <div class="checkbox">
                         <label>
                             <input name="remember" type="checkbox" value="Remember Me">Remember Me
@@ -75,7 +75,7 @@
 
 <script>
     $("#verify").on("click",function () {
-        $(this).find("img").attr("src","../login/showVerify");
+        $(this).find("img").attr("src","../login/verify");
     })
     function keydown() {
         if(event.which == 13){
@@ -86,40 +86,40 @@
         var admin_name= $("input[name='admin_name']").val();
         var admin_password= $("input[name='admin_password']").val();
         var Verification_Code= $("input[name='Verification_Code']").val();
-        var Remember =$("input[name='remember']").is(":checked");
         $.ajax({
             type:"GET",
-            url:"../login/ajaxLogin",
-            data:{"name":admin_name,"password":admin_password,"code":Verification_Code,"remember":Remember},
+            url:"../Login/ajaxLogin",
+            data:{"name":admin_name,"password":admin_password,"code":Verification_Code},
             dataType:"text",
             success : function(outDate){
                 if(outDate=="登录成功"){
                     /*登录成功*/
                     alert("登录成功");
-                    window.location.href="../home/index";
+                    window.location.href="../Home/index";
                 }else if(outDate=="密码错误") {
                     alert("密码错误");
                     $("input[name='admin_password']").val("");
                     $("input[name='Verification_Code']").val("");
-                    $("#verify_code").attr("src","../login/showVerify");
+                    $("#verify_code").attr("src","../login/verify");
                 }else if(outDate=="当前账号不存在") {
                     alert("当前账号不存在");
                     $("input[name='admin_name']").val("");
                     $("input[name='admin_password']").val("");
                     $("input[name='Verification_Code']").val("");
-                    $("#verify_code").attr("src","../login/showVerify");
+                    $("#verify_code").attr("src","../login/verify");
                 }else if(outDate=="验证码输入错误") {
                     alert("验证码输入错误");
                     $("input[name='Verification_Code']").val("");
-                    $("#verify_code").attr("src","../login/showVerify");
+                    $("#verify_code").attr("src","../login/verify");
                 }else if(outDate=="有输入项为空") {
                     alert("有输入项为空");
                     $("input[name='Verification_Code']").val("");
-                    $("#verify_code").attr("src","../login/showVerify");
+                    $("#verify_code").attr("src","../login/verify");
                 }
             }
         })
     }
+
 </script>
 
 </body>

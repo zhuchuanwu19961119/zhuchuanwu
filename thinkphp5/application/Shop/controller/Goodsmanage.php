@@ -283,7 +283,22 @@ class Goodsmanage extends Base{
             Session::set("ImgSrc","/public/uploads/Img/Goods/".$code."thumbnail.jpg");
         }
     }
-
+    /*
+     *  商品上传相册 文件copy
+     */
+    public function CopyAlbum(){
+        $Request = Request::instance();
+        if($Request->has("Url")){
+            $FileUrl = $Request->get("Url");
+            preg_match_all('/\/pu.*/',$FileUrl,$arr);
+            $Url =  getcwd().$arr[0][0];
+            $rand = rand(0,99999);  //生成随机数
+            if(copy($Url,getcwd()."/public/uploads/Img/Goods/".$rand.".jpg")){
+                unlink($Url);
+                Session::set("ImgSrc","/public/uploads/Img/Goods/".$rand.".jpg");
+            }
+        }
+    }
     /**
      *  显示商品修改页
      */

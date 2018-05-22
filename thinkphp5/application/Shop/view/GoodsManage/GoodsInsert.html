@@ -24,7 +24,6 @@
                     <li><a href="#album" data-toggle="tab">商品相册</a></li>
                     <li><a href="#attribute" data-toggle="tab">商品属性</a></li>
                     <li><a href="#other" data-toggle="tab">其他信息</a></li>
-
                 </ul>
                 <!-- Tab panes -->
                 <div class="tab-content">
@@ -187,7 +186,7 @@
                             </div>
                                 <div class="clearfix form-actions" style="margin-left: 10%;margin-top: 5%">
                                 <div class="col-md-offset-3 col-md-9">
-                                    <button class="btn btn-info" type="button" name="insertBtn" >
+                                    <button class="btn btn-info" type="button" name="insertBtn">
                                         <i class="ace-icon fa fa-check bigger-110"></i>
                                         保存
                                     </button>
@@ -203,30 +202,23 @@
                     <div class="tab-pane fade" id="album">
                         <div style="margin: 15px;">
                             <a href="../Home/ReturnOne" style="margin-left: 15px;"><i class="fa fa-reply fa-fw"></i>返回上一层</a>.
-                            <div style="margin-top: 15px;width: 100%;;border: 1px red solid">
-                                <ul >
-                                    <li>
-                                        <img src="../../../../public/static/img/back.png" height="100%"
-                                             width="100%"/>
-                                    </li>
-                                    <li>
-                                        <img src="../../../../public/static/img/back.png" height="100%"
-                                             width="100%"/>
-                                    </li>
-                                    <li>
-                                        <img src="../../../../public/static/img/back.png" height="100%"
-                                             width="100%"/>
-                                    </li>
-                                    <li>
-                                        <img src="../../../../public/static/img/back.png" height="100%"
-                                             width="100%"/>
-                                    </li>
-                                    <li>
-                                        <img src="../../../../public/static/img/back.png" height="100%"
-                                             width="100%"/>
-                                    </li>
+                            <div  style="margin-top: 15px;width: 100%;;border: 1px red solid">
+                                <ul id="ImgUl">
                                 </ul>
-                                <div style="width: 90%;margin: 0 auto 15px;height: 50px;border: 1px solid red;"></div>
+                                <div style="width: 90%;margin: 0 auto 10px;line-height: 50px;">
+                                    <div style="margin: 0 auto;width:30%; ">
+                                    <input type="file" id="imgsFile" style="display: none"  onchange="Album()">
+                                    <button type="button" class="btn btn-default" onclick="AddClick()">
+                                        <i class="ace-icon fa fa-image bigger-110"></i>
+                                        添加图片
+                                    </button>
+                                    &nbsp; &nbsp; &nbsp;
+                                    <button class="btn btn-info" type="button" name="AddImgBtn" >
+                                        <i class="ace-icon fa fa-check bigger-110"></i>
+                                        上传
+                                    </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -301,7 +293,9 @@
         /*焦点事件*/
 
         $("button[name='insertBtn']").click(function () {
-            /*商品名称*/
+            AddJben();
+        });
+        function AddJben() {
             var name = $("input[name='name']").val();
             if(name!=""){
                 /*商品别名*/
@@ -315,7 +309,7 @@
                         var TwoType = $("select[name='TwoType']").val();
                         if(OneType!="请选择..."){
                             if(TwoType=="请选择...") {
-                              $("input[name='type']").val(OneType);
+                                $("input[name='type']").val(OneType);
                             }else   $("input[name='type']").val(TwoType);
                             /*商品品牌*/
                             var selectpinpai = $("select[name='pinpai']").val();
@@ -448,8 +442,8 @@
                     }else $("input[name='huohao']").focus();
                 }else $("input[name='biename']").focus();
             }else $("input[name='name']").focus();
+        }
 
-        });
 
         /*AJAX 获取类别*/
         $.ajax({
@@ -546,5 +540,84 @@
         });
     });
 
+    /*JS 显示删除*/
+    $("#ImgUl").find("li").mousemove(function () {
+        $(this).find("div").removeClass("dis");
+    });
+    $("#ImgUl").find("li").mouseout(function () {
+        $(this).find("div").addClass("dis");
+    });
+    $("#ImgUl li div").click(function () {
+        $(this).parent().remove();
+    })
+    /** 添加图片按钮*/
+    function AddClick() {
+        var lenght = $("#ImgUl").find("li").length;
+        if(lenght>=0 && lenght<6) {
+            $('input[id=imgsFile]').click();
+        }else alert("图片最大数量为6");
+    }
+    /** 显示相册图片 */
+    function Album() {
+        var formdata=new FormData();
+        formdata.append("files" , $("#imgsFile")[0].files[0]);
+        $.ajax({
+            type:"POST",
+            url:"../Goodsmanage/showLogo",
+            data:formdata,
+            cache:false,
+            processData:false,
+            contentType:false,
+            success:function(data){
+                var li =  " <li><img src="+data+" height='100%' width='100%'/><div class='Dele dis'><i class='fa fa-fw  fa-trash-o'></i></div></li>";
+                $("#ImgUl").append(li);
+                $("#ImgUl").find("li").mousemove(function () {
+                    $(this).find("div").removeClass("dis");
+                });
+                $("#ImgUl").find("li").mouseout(function () {
+                    $(this).find("div").addClass("dis");
+                });
+                $("#ImgUl li div").click(function () {
+                    $(this).parent().remove();
+                })
+            }
+        })
+    }
+
+    /**
+     *  上传相册
+     */
+    $("button[name='AddImgBtn']").click(function () {
+        var huohao = $("input[name='huohao']").val();
+        if (huohao == "") {
+           /*货号不存在*/
+           $("#basic").addClass("active in");
+        } else {
+            var lenght = $("#ImgUl").find("li").length;
+            if(lenght>0 && lenght<=6) {
+                var confirmdel3 = confirm('确定要添加以上图片至该商品相册吗?');
+                if(confirmdel3){
+                    /**
+                     * AJAX 添加到相册
+                     */
+                    for(var i=0;i<lenght ;i++) {
+                        var Url = $("#ImgUl li").eq(i).find("img")[0].src;
+                        var huohao = $("input[name='huohao']").val();
+
+                        $.ajax({
+                            type: "GET",
+                            url: "../Goodsmanage/CopyAlbum",
+                            data: {"huohao":huohao,"Url": Url},
+                            dataType: "text",
+                            success: function (outData) {
+                                console.log(outData);
+                            }
+                        });
+
+                    }
+                }
+            }else alert('请选择需要上传的商品信息图片');
+        }
+    })
 </script>
 {include file="public/tail" /}

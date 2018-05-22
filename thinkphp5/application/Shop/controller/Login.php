@@ -5,6 +5,7 @@ use think\Request;
 use think\Session;
 use app\shop\model\admin as AdminModel;
 use app\shop\model\adminInformation as InformationModel;
+use think\captcha\Captcha as Captcha;
 class Login extends Base{
 
     /**
@@ -23,12 +24,17 @@ class Login extends Base{
             return $this->fetch("home/index");
         }else return $this->fetch("login/index");
     }
+    /*验证码生成*/
+    public function verify(){
+        $Verify=new Captcha();
+        return $Verify->entry();
+    }
     /**
-     *  verify 显示验证码
+     *  验证输入的验证码是否正确
      */
-    public function showVerify(){
-        $Verify=new verify\Verify();
-        $Verify->entry();
+    public function check_verify($code, $id = ''){
+        $captcha =new \think\captcha\Captcha();
+        return $captcha->check($code, $id);
     }
     /**
      *  ajaxLogin 使用AJAX验证登录信息
@@ -43,7 +49,7 @@ class Login extends Base{
             $remember = $Request->get('remember');
             if (($name != '' || $name != null) && ($password != '' || $password != null) && ($code != '' || $code != null)) {
                 /*输入项不为空*/
-                $Verify = new verify\Verify();
+                $Verify = new Captcha();
                 if ($Verify->check($code)) {
                     /*验证码正确*/
                     // 引用model
@@ -84,7 +90,6 @@ class Login extends Base{
                                 //存入Session
                                 Session::set('admin_id', $AdminArray[0]['admin_id']);
                                 echo "登录成功";
-
                             }
                         } else echo "密码错误";
                     } else echo "当前账号不存在";
@@ -92,6 +97,9 @@ class Login extends Base{
             } else  echo "有输入项为空";
         }
     }
+
+
+
     /**
      * 退登账号的方法 清除Session
      */

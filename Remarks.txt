@@ -1,2 +1,6 @@
 # - This is my first time to upload 
+<<<<<<< HEAD
  Â   Upload time ï¼š2018-5-18 10:09:20
+=======
+    Upload time £º2018-5-18 10:09:20
+>>>>>>> 20180517 18:00

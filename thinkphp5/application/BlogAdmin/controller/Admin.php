@@ -8,6 +8,7 @@
 namespace app\BlogAdmin\controller;
 header("Content-type:text/html;charset=UTF-8");
 use app\blogadmin\model\site;
+use think\captcha\Captcha as Captcha;
 use \think\Db;
 use think\Session;
 use \think\View;
@@ -112,8 +113,8 @@ class Admin extends Base
     }
     /*验证码生成*/
     public function verify(){
-        $Verify=new verify\Verify();
-        $Verify->entry();
+        $Verify=new Captcha();
+        return $Verify->entry();
     }
     /**
      * Home () 主页的显示方法
@@ -135,7 +136,7 @@ class Admin extends Base
             $code = $Request->get('code');
             if(($name!='' || $name !=null) && ($password!='' || $password !=null)  && ($code!='' || $code !=null) ){
                 /*输入项不为空*/
-                $Verify = new verify\Verify();
+                $Verify = new Captcha();
                 if ($Verify->check($code)) {
                     /*验证码正确*/
                     $AdminModel=new AdminModel();
