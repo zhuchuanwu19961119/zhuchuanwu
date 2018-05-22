@@ -8,6 +8,8 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
+use \think\Route as Route;
+
 
 return [
     '__pattern__' => [
@@ -19,3 +21,7 @@ return [
     ],
 
 ];
+//Route::rule([
+//    'home'=>'shop/home/index',
+//    'title/[:name]'=>'shop/Goodsmanage/showList?title=商品列表'
+//]);

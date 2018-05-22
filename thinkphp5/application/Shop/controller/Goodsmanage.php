@@ -6,7 +6,7 @@ use think\Request;
 use app\shop\model\goods as GoodsModel;
 use app\shop\model\goodsBrand as BrandModel;
 use app\shop\model\goodsType as TypeModel;
-
+use app\shop\model\goodsImages as GoodsImagesModel;
 class Goodsmanage extends Base{
 
     /**
@@ -207,11 +207,12 @@ class Goodsmanage extends Base{
             "goods_addtime" => $Request->get("addtime"), //添加时间
             "goods_info" => $Request->get("Textarea"), //商品信息
             "goods_thumbnail" => Session::get("ImgSrc"),//缩略图
+            "goods_video" => Session::get("VideoSrc"),//视频地址
         ]);
         $GoodsModel = new GoodsModel();
         $return = $GoodsModel->insert($data);
         if($return > -1){
-            echo "1";
+            return json_encode(['state'=>1,'huohao'=>$Request->get("huohao")]);
         }
     }
     /**
@@ -236,27 +237,26 @@ class Goodsmanage extends Base{
             $code=substr($code,0,10);  //截取
             $code = $code.$rand;
         }
-        Session::set("Code",$code);
+//        Session::set("Code",$code);
         echo $code; //最后的验证码
     }
-
     /**
-     *  显示logo
+     *  显示showImg
      */
-    public function showLogo(){
+    public function showImg(){
         // 获取表单上传文件
         $Request=Request::instance();
         $files = $Request->file('files');
         if($files){
-            $info = $files->move( 'public' . DS . 'uploads/Img/Goods/','');
+            $info = $files->move( 'public' . DS . 'uploads/SHOP/Goods/');
             if($info){
                 // 成功上传后 获取上传信息
                 // 输出 jpg
 //                echo $info->getExtension();
                 // 输出 20160820/42a79759f284b767dfcb2a0197904287.jpg
 //                echo  $info->getSaveName();
-                Session::set('GoodsImg', '/public' . DS . 'uploads/Img/Goods/'.$info->getSaveName());
-                return   '/public' . DS . 'uploads/Img/Goods/'.$info->getSaveName();
+                Session::set('GoodsImg', '/public' . DS . 'uploads/SHOP/Goods/'.$info->getExtension());
+                return   '/public' . DS . 'uploads/SHOP/Goods/'.$info->getSaveName();
                 // 输出 42a79759f284b767dfcb2a0197904287.jpg
 //                echo $info->getFilename();
             }else{
@@ -269,34 +269,100 @@ class Goodsmanage extends Base{
      *  删除临时图片
      */
     public function DelTemporaryImg(){
-        $Img = Session::get('GoodsImg');
-        unlink(getcwd().$Img);
+        $Request=Request::instance();
+        if($Request->has("url")) {
+            $Img = $Request->post("url");
+            preg_match_all('/\/pu.*/', $Img, $arr);
+            $Url = $arr[0][0]; //图片元地址
+            unlink(getcwd() . $Url);
+        }
+
+//        $Img = Session::get('GoodsImg');
+//        unlink(getcwd().$Img);
     }
     /**
-     *  将图片从临时文件复制到最终文件夹
+     *  将图片/视频 从临时文件复制到最终文件夹
      */
-    public function CopyImg(){
+    public function Copy(){
+        $Request = Request::instance();
+        $code = $Request->post("huohao");
+        $Video = getcwd().Session::get('GoodsVideo');
         $Img = getcwd().Session::get('GoodsImg');
-        $code = Session::get('Code');
-        if(copy($Img,getcwd()."/public/uploads/Img/Goods/".$code."thumbnail.jpg")){
+        mkdir(getcwd()."/public/uploads/SHOP/Goods/".$code."");
+        if(copy($Img,getcwd()."/public/uploads/SHOP/Goods/"."$code/"."thumbnail.jpg")){
             unlink($Img);
-            Session::set("ImgSrc","/public/uploads/Img/Goods/".$code."thumbnail.jpg");
+            Session::set("ImgSrc","/public/uploads/SHOP/Goods/"."$code/"."thumbnail.jpg");
+        }
+        if(copy($Video,getcwd()."/public/uploads/SHOP/Goods/"."$code/"."Video.mp4")){
+            unlink($Video);
+            Session::set("VideoSrc","/public/uploads/SHOP/Goods/"."$code/"."Video.mp4");
         }
     }
-    /*
-     *  商品上传相册 文件copy
-     */
+    /** 上传图片到商品相册*/
     public function CopyAlbum(){
         $Request = Request::instance();
         if($Request->has("Url")){
             $FileUrl = $Request->get("Url");
+            $huohao = $Request->get("huohao");
             preg_match_all('/\/pu.*/',$FileUrl,$arr);
-            $Url =  getcwd().$arr[0][0];
+            $Url =  getcwd().$arr[0][0]; //图片元地址
             $rand = rand(0,99999);  //生成随机数
-            if(copy($Url,getcwd()."/public/uploads/Img/Goods/".$rand.".jpg")){
+            $Addurl = "/public/uploads/SHOP/Goods/"."$huohao/".$rand.".jpg";  //存入的新地址以及文件名
+            if(copy($Url,getcwd().$Addurl)){
                 unlink($Url);
-                Session::set("ImgSrc","/public/uploads/Img/Goods/".$rand.".jpg");
+                /*将文件地址加入数据库中*/
+                $data = ([
+                    "goods_code" =>$huohao,
+                    "goods_images_url" =>$Addurl,
+                ]);
+                $GoodsImagesModel =new GoodsImagesModel();
+                $GoodsImagesModel->insert($data);
             }
+        }
+    }
+    /**
+     * 显示视频
+     */
+    public function showVideo(){
+        // 获取表单上传文件
+        $Request=Request::instance();
+        $files = $Request->file('videos');
+        if($files){
+            $info = $files->move( 'public' . DS . 'uploads/SHOP/Goods/');
+            if($info){
+                // 成功上传后 获取上传信息
+                // 输出 jpg
+//                echo $info->getExtension();
+                // 输出 20160820/42a79759f284b767dfcb2a0197904287.jpg
+//                echo  $info->getSaveName();
+                Session::set('GoodsVideo', '/public' . DS . 'uploads/SHOP/Goods/'.$info->getSaveName());
+                return   '/public' . DS . 'uploads/SHOP/Goods/'.$info->getSaveName();
+                // 输出 42a79759f284b767dfcb2a0197904287.jpg
+//                echo $info->getFilename();
+            }else{
+                // 上传失败获取错误信息
+                echo $files->getError();
+            }
+        }
+    }
+    /**
+     *  删除临时视频
+     */
+    public function DelTemporaryVideo(){
+        $Img = Session::get('GoodsVideo');
+        unlink(getcwd().$Img);
+    }
+    /**
+     * 删除相册图片
+     */
+    public function DeleteImgS(){
+         $Request = Request::instance();
+         $url = getcwd().$Request->post('url');
+
+        preg_match_all('/\/pu.*/',$url,$arr);
+        $Url =  $arr[0][0]; //图片元地址
+        if(file_exists(getcwd().$Url)){
+            unlink(getcwd().$Url);
         }
     }
     /**
@@ -342,23 +408,11 @@ class Goodsmanage extends Base{
         }
 //        echo $Img.$goods_id.$goods_code;
     }
-
     /**
      *  显示商品删除页
      *  ps: 将当前要删除的商品加入到商品回收站
      */
     public function showDelete(){
-        if(Session::has("admin_id")){
-            /*已经登录*/
-            $Request = Request::instance();
-            if($Request->has("goods_id")){
-                /*存在goods_id*/
-                $goods_id = $Request->get("goods_id");
-                $GoodsModel = new GoodsModel();
-
-                return $this->fetch("GoodsManage/GoodsUpdate");
-            }
-        }else return $this->fetch("login/index");
-
+        rmdir("E:\oline\phpstudy\WWW\\thinkphp5\public\uploads\SHOP\Goods\\20180522");
     }
 }

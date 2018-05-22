@@ -19,9 +19,8 @@
             <div class="panel-body">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#basic" data-toggle="tab" aria-expanded="false">基本信息</a></li>
-                    <li ><a href="#" data-toggle="tab" aria-expanded="true" style="display: none">详细描述</a></li>
-                    <li><a href="#album" data-toggle="tab">商品相册</a></li>
+                    <li id="jibenxinxi" class="active"><a href="#basic" data-toggle="tab" aria-expanded="false">基本信息</a></li>
+                    <li id="goodsxiangce"><a href="#album" data-toggle="tab">商品相册</a></li>
                     <li><a href="#attribute" data-toggle="tab">商品属性</a></li>
                     <li><a href="#other" data-toggle="tab">其他信息</a></li>
                 </ul>
@@ -116,13 +115,26 @@
                                         <div class="input-append">
                                             <input id="photoCover"  class="input-large form-control" type="text" style="height:30px;width:250px;float: left" readonly="readonly">
                                             <i onclick="$('input[id=files]').click();" class="fa fa-fw fa-plus-circle " style="float: left;display: block;height: 34px;line-height: 34px;margin-left: 5px;" data-toggle="tooltip" data-placement="right" title="点击添加商品信息图"></i>
-                                            <div style="position: absolute;right:90px;top: -125px;">
-                                                <img id="ReturnImg" src="" style="width: 300px;height: 250px;" class="img-rounded" />
+                                            <div style="position: absolute;right:90px;top: -170px;">
+                                                <img id="ReturnImg" src="" style="width: 300px;height: 200px;" class="img-rounded" />
                                             </div>
-                                            <i id="Delimg" class="fa fa-trash-o fa-fw"  style="float: left;display: block;height: 34px;line-height: 34px;margin-left: 5px;"  title="删除商品"></i>
+                                            <i id="Delimg" class="fa fa-trash-o fa-fw"  style="float: left;display: block;height: 34px;line-height: 34px;margin-left: 5px;"  title="删除商品缩略图"></i>
                                         </div>
                                     </div>
-
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right"> 商品效果视频： </label>
+                                    <div class="col-sm-10">
+                                        <input id="video" type="file" style="display:none" onchange="showVideo()">
+                                        <div class="input-append">
+                                            <input id="videoUrl"  class="input-large form-control" type="text" style="height:30px;width:250px;float: left" readonly="readonly">
+                                            <i onclick="$('input[id=video]').click();" class="fa fa-fw fa-plus-circle " style="float: left;display: block;height: 34px;line-height: 34px;margin-left: 5px;" data-toggle="tooltip" data-placement="right" title="点击添加商品视频"></i>
+                                            <div style="position: absolute;right:90px;top: -25px;">
+                                                <video id="RrturnVideo" src="" style="width: 300px;height: 250px;" class="img-rounded" autoplay="autoplay" controls="controls"></video>
+                                            </div>
+                                            <i id="Delvideo" class="fa fa-trash-o fa-fw"  style="float: left;display: block;height: 34px;line-height: 34px;margin-left: 5px;"  title="删除商品视频"></i>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                 <label class="col-sm-2 control-label no-padding-right"> 虚拟商品： </label>
@@ -181,7 +193,6 @@
                                 </div>
                             </div>
                             <div id="xiangqing" style="display: none;margin: 15px;">
-                                <a href="../Home/ReturnOne" style="margin-left: 15px; margin-top: 15px"><i class="fa fa-reply fa-fw"></i>返回上一层</a>.
                                 <textarea id="editor" name="Textarea" style="width: 100%;height: 350px;margin: 0 auto; margin-top: 5px;"></textarea>
                             </div>
                                 <div class="clearfix form-actions" style="margin-left: 10%;margin-top: 5%">
@@ -202,20 +213,25 @@
                     <div class="tab-pane fade" id="album">
                         <div style="margin: 15px;">
                             <a href="../Home/ReturnOne" style="margin-left: 15px;"><i class="fa fa-reply fa-fw"></i>返回上一层</a>.
-                            <div  style="margin-top: 15px;width: 100%;;border: 1px red solid">
+                            <div  style="margin-top: 15px;width: 100%;;border: 1px #dddddd solid">
                                 <ul id="ImgUl">
                                 </ul>
                                 <div style="width: 90%;margin: 0 auto 10px;line-height: 50px;">
-                                    <div style="margin: 0 auto;width:30%; ">
+                                    <div style="margin: 0 auto;width:40%; ">
                                     <input type="file" id="imgsFile" style="display: none"  onchange="Album()">
-                                    <button type="button" class="btn btn-default" onclick="AddClick()">
+                                    <button type="button" class="btn btn-outline btn-default" onclick="AddClick()">
                                         <i class="ace-icon fa fa-image bigger-110"></i>
                                         添加图片
                                     </button>
                                     &nbsp; &nbsp; &nbsp;
-                                    <button class="btn btn-info" type="button" name="AddImgBtn" >
+                                    <button class="btn btn-outline btn-info" type="button" name="AddImgBtn" >
                                         <i class="ace-icon fa fa-check bigger-110"></i>
                                         上传
+                                    </button>
+                                    &nbsp; &nbsp; &nbsp;
+                                    <button class="btn btn-outline btn-danger" type="button" onclick="fangqi()">
+                                        <i class="ace-icon fa fa-times bigger-110"></i>
+                                        放弃
                                     </button>
                                     </div>
                                 </div>
@@ -272,6 +288,8 @@
         $("#addleibie").hide();
         $("#ReturnImg").hide();
         $("#Delimg").hide();
+        $("#RrturnVideo").hide();
+        $("#Delvideo").hide();
         /*生成时间*/
         var str = getFormatDate();
         $("#time").val(str);
@@ -380,19 +398,15 @@
                                                             if (confirmdel) {
                                                                 $("#xiangqing").css({
                                                                     "display": "block"
-                                                                })
-                                                                $("#jiben").css({
-                                                                    "display": "none"
-                                                                })
-                                                                $("textarea[name='Textarea']").focus();
-                                                                var infor = $("textarea[name='Textarea']").val();
+                                                                });
+                                                                $("#editor").focus();
                                                             } else {
                                                                 var confirmdel2 = confirm('确认要以上商品信息吗?');
                                                                 if (confirmdel2) {
                                                                     $.ajax({
                                                                         type:"POST",
-                                                                        url: "../Goodsmanage/CopyImg",
-                                                                        data:{}
+                                                                        url: "../Goodsmanage/Copy",
+                                                                        data:{"huohao":$("input[name='huohao']").val()}
                                                                     });
                                                                     $.ajax({
                                                                         type: $("#GoodsGFrom").attr("method"),
@@ -401,8 +415,16 @@
                                                                         dataType: "text",
                                                                         traditional: true,
                                                                         success: function (outData) {
-                                                                            alert("添加成功，详情请到首页查看");
-                                                                            window.location.href = "../GoodsManage/showList?title=商品列表";
+                                                                            alert("添加成功");
+                                                                            var confirmdel5 = confirm('是否继续为该商品添加图片?');
+                                                                            if (confirmdel5) {
+                                                                                $("#album").addClass("active in");
+                                                                                $("#basic").removeClass("active in");
+                                                                                $("#goodsxiangce").addClass("active");
+                                                                                $("#jibenxinxi").removeClass("active");
+                                                                            }else{
+                                                                                window.location.href="../GoodsManage/showList?title=商品列表";
+                                                                            }
                                                                         }
                                                                     });
                                                                 }
@@ -412,8 +434,8 @@
                                                             if (confirmdel2) {
                                                                 $.ajax({
                                                                     type:"POST",
-                                                                    url: "../Goodsmanage/CopyImg",
-                                                                    data:{}
+                                                                    url: "../Goodsmanage/Copy",
+                                                                    data:{"huohao":$("input[name='huohao']").val()}
                                                                 });
                                                                 $.ajax({
                                                                     type: $("#GoodsGFrom").attr("method"),
@@ -422,10 +444,15 @@
                                                                     dataType: "text",
                                                                     traditional: true,
                                                                     success: function (outData) {
-                                                                        console.log(outData);
-                                                                        if (outData === "1") {
-                                                                            alert("添加成功，详情请到首页查看");
-                                                                            window.location.href = "../GoodsManage/showList?title=商品列表";
+                                                                        alert("添加成功");
+                                                                        var confirmdel5 = confirm('是否继续为该商品添加图片?');
+                                                                        if (confirmdel5) {
+                                                                            $("#album").addClass("active in");
+                                                                            $("#basic").removeClass("active in");
+                                                                            $("#goodsxiangce").addClass("active");
+                                                                            $("#jibenxinxi").removeClass("active");
+                                                                        }else{
+                                                                            window.location.href="../GoodsManage/showList?title=商品列表";
                                                                         }
                                                                     }
                                                                 });
@@ -512,10 +539,15 @@
     /*显示图片*/
     function showImgs() {
         var formdata=new FormData();
-        formdata.append("files" , $("input[type='file']")[0].files[0]);
+        formdata.append("files" , $("#files")[0].files[0]);
         $.ajax({
             type:"POST",
-            url:"../Goodsmanage/showLogo",
+            url: "../Goodsmanage/DelTemporaryImg",
+            data:{}
+        });
+        $.ajax({
+            type:"POST",
+            url:"../Goodsmanage/showImg",
             data:formdata,
             cache:false,
             processData:false,
@@ -527,19 +559,21 @@
             }
         })
     }
+    /* 删除缩略图*/
     $("#Delimg").click(function () {
+        $.ajax({
+            type:"POST",
+            url: "../Goodsmanage/DelTemporaryImg",
+            data:{"url":$("#ReturnImg")[0].src}
+        });
         $("#ReturnImg").hide();
         $("#ReturnImg").attr("src","");
         $("#files").val("");
         $("#photoCover").val("");
         $(this).hide();
-        $.ajax({
-            type:"POST",
-            url: "../Goodsmanage/DelTemporaryImg",
-            data:{}
-        });
-    });
 
+
+    });
     /*JS 显示删除*/
     $("#ImgUl").find("li").mousemove(function () {
         $(this).find("div").removeClass("dis");
@@ -553,9 +587,9 @@
     /** 添加图片按钮*/
     function AddClick() {
         var lenght = $("#ImgUl").find("li").length;
-        if(lenght>=0 && lenght<6) {
+        if(lenght>=0 && lenght<12) {
             $('input[id=imgsFile]').click();
-        }else alert("图片最大数量为6");
+        }else alert("图片最大数量为12");
     }
     /** 显示相册图片 */
     function Album() {
@@ -563,7 +597,7 @@
         formdata.append("files" , $("#imgsFile")[0].files[0]);
         $.ajax({
             type:"POST",
-            url:"../Goodsmanage/showLogo",
+            url:"../Goodsmanage/showImg",
             data:formdata,
             cache:false,
             processData:false,
@@ -577,9 +611,16 @@
                 $("#ImgUl").find("li").mouseout(function () {
                     $(this).find("div").addClass("dis");
                 });
-                $("#ImgUl li div").click(function () {
+                $("#ImgUl li div").on("click",function () {
                     $(this).parent().remove();
-                })
+                    var src = $(this).parent().find("img")[0].src;
+//                    console.log(src);
+                    $.ajax({
+                        type:"POST",
+                        url: "../Goodsmanage/DelTemporaryImg",
+                        data:{"url":src}
+                    });
+                });
             }
         })
     }
@@ -592,9 +633,12 @@
         if (huohao == "") {
            /*货号不存在*/
            $("#basic").addClass("active in");
+           $("#album").removeClass("active in");
+           $("#jibenxinxi").addClass("active");
+           $("#goodsxiangce").removeClass("active");
         } else {
             var lenght = $("#ImgUl").find("li").length;
-            if(lenght>0 && lenght<=6) {
+            if(lenght>0 && lenght<=12) {
                 var confirmdel3 = confirm('确定要添加以上图片至该商品相册吗?');
                 if(confirmdel3){
                     /**
@@ -603,7 +647,6 @@
                     for(var i=0;i<lenght ;i++) {
                         var Url = $("#ImgUl li").eq(i).find("img")[0].src;
                         var huohao = $("input[name='huohao']").val();
-
                         $.ajax({
                             type: "GET",
                             url: "../Goodsmanage/CopyAlbum",
@@ -613,11 +656,60 @@
                                 console.log(outData);
                             }
                         });
-
                     }
+                    alert("添加成功,请到商品列表页查看商品信息");
+                    window.location.href="../GoodsManage/showList?title=商品列表";
                 }
             }else alert('请选择需要上传的商品信息图片');
         }
     })
+
+    /**
+     *  放弃按钮
+     */
+    function fangqi(){
+        var confirmdel3 = confirm('确定要放弃添加图片吗?');
+        if(confirmdel3) {
+            window.location.href="../GoodsManage/showList?title=商品列表";
+        }
+    }
+
+    /**
+     *  显示视频
+     */
+    function showVideo(){
+        var formdata=new FormData();
+        formdata.append("videos" , $("#video")[0].files[0]);
+        $.ajax({
+            type:"POST",
+            url:"../Goodsmanage/showVideo",
+            data:formdata,
+            cache:false,
+            processData:false,
+            contentType:false,
+            success:function(data){
+                $("#RrturnVideo").attr("src",data);
+                $("#RrturnVideo").show();
+                $("#Delvideo").show();
+            }
+        })
+    }
+    /*显示文件上传的名称*/
+    $('input[id=video]').change(function() {
+        $('#videoUrl').val($(this).val());
+    });
+    /* 删除视频*/
+    $("#Delvideo").click(function () {
+        $("#RrturnVideo").hide();
+        $("#RrturnVideo").attr("src","");
+        $("#videoUrl").val("");
+        $("#RrturnVideo").val("");
+        $(this).hide();
+        $.ajax({
+            type:"POST",
+            url: "../Goodsmanage/DelTemporaryVideo",
+            data:{}
+        });
+    });
 </script>
 {include file="public/tail" /}
