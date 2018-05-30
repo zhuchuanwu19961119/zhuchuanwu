@@ -1,0 +1,73 @@
+<link rel="stylesheet" href="__STATIC__/shop/css.css">
+
+<!--{volst name="Goods" id="Goods"}-->
+<div class="infor">
+    <div class="Dele"><i class="fa fa-fw  fa-times"></i></div>
+    <div class="content">
+        <div class="left">
+            <div class="img">
+
+                <img src={$Goods[0]['goods_thumbnail']} height="100%" width="100%"/>
+            </div>
+            <div id="thumbnail" class="thumbnail1">
+                <ul>
+                <li><img src={$Goods[0]['goods_thumbnail']} height="100%" width="100%"/></li>
+                <!--{volst name="Images" id="Images"}-->
+                <?php
+                    for($i = 0; $i<count($Images); $i++){
+              ?>
+
+                    <li><img src={$Images[$i]['goods_images_url']} height="100%" width="100%"/></li>
+
+                <?php
+                   }
+              ?>
+                </ul>
+                <!--{/volist}-->
+            </div>
+        </div>
+        <div class="right">
+            <ul>
+                <li style="border-bottom:3px solid saddlebrown;"><span style="font-size:25px;">{$Goods[0]['goods_name']}</span><span style="font-size:15px;margin-left: 95px;">{$Goods[0]['goods_alias_name']}</span></li>
+                <li style="font-size: 25px; color: #808080"><label>价格:</label><del>￥ {$Goods[0]['goods_market_price']}</del></li>
+                <li style="font-size: 25px; color: #808080"><label>促销价:</label><span style="color: red;">￥{$Goods[0]['goods_price']}</span></li>
+                <li style="font-size: 25px; color: #808080"><label>库存:</label><span style="color: red;">{$Goods[0]['goods_stock']}</span></li>
+                <?php
+                 if($Goods[0]['goods_state'] === 1)
+                    $shangjia = "已上架";
+                    else  $shangjia = "为上架";
+              ?>
+
+                <li style="font-size: 25px; color: #808080">{$shangjia}</li>
+                <?php
+                 if($Goods[0]['goods_shipping'] === 1)
+                    $baoyou = "已包邮";
+                   else   $baoyou = "不  包邮";
+              ?>
+                <li style="font-size: 25px; color: #808080">{$baoyou}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+//    $("#thumbnail").find("li").eq(0).css({
+//        "border" : "1px solid red"
+//    });
+    $("#thumbnail").find("li").each(function () {
+
+        $(this).find("img").mousemove(function () {
+            $(this).css({
+                "border" : "1px solid red"
+            });
+            $(this).parent().siblings().find("img").css({
+                "border" : "1px solid whitesmoke"
+            });
+            $(".img").find("img").attr("src",this.src);
+        })
+    });
+$(".Dele").click(function () {
+    $("#informationModel").modal('hide')
+})
+
+</script>
+<!--{\volist}-->

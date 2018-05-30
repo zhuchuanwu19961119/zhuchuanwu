@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div style="width: 97%;height: 95%;background: #f8f8f8;margin: 15px;">
+
+    <h1>{$Goods_Code}</h1>
+    {volist name="ImgArr" id="ImgArr"}
+    <ul style="float: left; list-style:none;">
+        <li style="width: 100px;height: 100px;float: left;"><img src={$ImgArr} height="100%" width="100%"/></li>
+    </ul>
+    {/volist}
+</div>
+</body>
+</html>

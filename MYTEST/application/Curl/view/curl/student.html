@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学号查询</title>
+    <link rel="stylesheet" href="/public/static/BlogCss/bootstrap.css" />
+    <script src="/public/static/BlogJs/jquery-3.3.1.min.js"></script>
+    <style type="text/css">
+        *{
+            padding: 0;
+            margin: 0;
+            position: relative;
+        }
+        ul {
+            list-style-type: none;
+        }
+        a:hover {
+            text-decoration: none;
+            color: #666;
+        }
+        img {
+            border: 0;
+            display: block;
+        }
+        .content{
+            width: 50%;
+            height: 50%;
+            margin: 0 auto;
+        }
+        .content button{
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="content">
+        <input type="text" class="form-control input" placeholder="输入学号" id="student_id" >
+        <input type="button" value="查询" class="btn btn-default button" id="check"></button>
+        <div id="RetuenHtml" class="well"></div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+    $("#check").on('click',function(){
+        $.ajax({
+            type:"post",
+            data:{'sid':$('#student_id').val()},
+            //这是网站自己的ajax访问地址
+            url : "http://localhost/index.php/curl/curl/stuInfo",
+            dataType: "text",
+            success : function(outDate){
+//                console.log(outDate);
+                result = JSON.parse(outDate);
+                console.log(result);
+
+//                if(result.error == 1){
+//                    $("#RetuenHtml").html('信息有错, error : '+result.error);
+//
+//                }else{
+//                    $RetuenString='你的学号为： '+result.id+'<br>你的名字： '+result.name;
+//                    $("#RetuenHtml").html($RetuenString);
+//                }
+            }
+        })
+    });
+</script>
